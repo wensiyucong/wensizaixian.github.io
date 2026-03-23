@@ -113,6 +113,18 @@
             color: var(--white);
         }
 
+        /* 滚动渐显效果样式 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* 导航栏样式 */
         header {
             position: fixed;
@@ -657,9 +669,9 @@
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-content">
-                <h1>创意与<span>智慧</span>的交汇点</h1>
-                <p>文思工作室是一家融合现代创意服务与传统智慧咨询的专业机构。我们致力于为客户提供视频剪辑、自媒体运营、文案编辑、策划推广以及命理学风水等多元化服务。</p>
-                <div class="hero-btns">
+                <h1 class="fade-in">创意与<span>智慧</span>的交汇点</h1>
+                <p class="fade-in" style="transition-delay: 0.2s;">文思工作室是一家融合现代创意服务与传统智慧咨询的专业机构。我们致力于为客户提供视频剪辑、自媒体运营、文案编辑、策划推广以及命理学风水等多元化服务。</p>
+                <div class="hero-btns fade-in" style="transition-delay: 0.4s;">
                     <a href="#services" class="btn">探索服务</a>
                     <a href="#contact" class="btn btn-outline">联系我们</a>
                 </div>
@@ -670,9 +682,9 @@
     <!-- 服务板块 -->
     <section class="section services" id="services">
         <div class="container">
-            <h2 class="section-title">我们的服务</h2>
+            <h2 class="section-title fade-in">我们的服务</h2>
             <div class="services-grid">
-                <div class="service-card">
+                <div class="service-card fade-in" style="transition-delay: 0.1s;">
                     <div class="service-icon">
                         <i class="fas fa-video"></i>
                     </div>
@@ -681,7 +693,7 @@
                     <a href="#contact" class="btn btn-outline">咨询详情</a>
                 </div>
                 
-                <div class="service-card">
+                <div class="service-card fade-in" style="transition-delay: 0.2s;">
                     <div class="service-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
@@ -690,7 +702,7 @@
                     <a href="#contact" class="btn btn-outline">咨询详情</a>
                 </div>
                 
-                <div class="service-card">
+                <div class="service-card fade-in" style="transition-delay: 0.3s;">
                     <div class="service-icon">
                         <i class="fas fa-pen-fancy"></i>
                     </div>
@@ -699,7 +711,7 @@
                     <a href="#contact" class="btn btn-outline">咨询详情</a>
                 </div>
                 
-                <div class="service-card">
+                <div class="service-card fade-in" style="transition-delay: 0.4s;">
                     <div class="service-icon">
                         <i class="fas fa-mountain"></i>
                     </div>
@@ -708,7 +720,7 @@
                     <a href="#contact" class="btn btn-outline">咨询详情</a>
                 </div>
                 
-                <div class="service-card">
+                <div class="service-card fade-in" style="transition-delay: 0.5s;">
                     <div class="service-icon">
                         <i class="fas fa-compass"></i>
                     </div>
@@ -717,7 +729,7 @@
                     <a href="#contact" class="btn btn-outline">咨询详情</a>
                 </div>
                 
-                <div class="service-card">
+                <div class="service-card fade-in" style="transition-delay: 0.6s;">
                     <div class="service-icon">
                         <i class="fas fa-bullhorn"></i>
                     </div>
@@ -732,9 +744,9 @@
     <!-- 作品案例 -->
     <section class="section portfolio" id="portfolio">
         <div class="container">
-            <h2 class="section-title">作品案例</h2>
+            <h2 class="section-title fade-in">作品案例</h2>
             
-            <div class="portfolio-filter">
+            <div class="portfolio-filter fade-in" style="transition-delay: 0.1s;">
                 <button class="filter-btn active" data-filter="all">全部作品</button>
                 <button class="filter-btn" data-filter="video">视频剪辑</button>
                 <button class="filter-btn" data-filter="media">自媒体运营</button>
@@ -742,7 +754,7 @@
             </div>
             
             <div class="portfolio-grid">
-                <div class="portfolio-item" data-category="video">
+                <div class="portfolio-item fade-in" data-category="video">
                     <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="企业宣传视频" class="portfolio-img">
                     <div class="portfolio-overlay">
                         <h4>企业品牌宣传片</h4>
@@ -750,7 +762,7 @@
                     </div>
                 </div>
                 
-                <div class="portfolio-item" data-category="media">
+                <div class="portfolio-item fade-in" style="transition-delay: 0.1s;" data-category="media">
                     <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="自媒体运营" class="portfolio-img">
                     <div class="portfolio-overlay">
                         <h4>美食自媒体账号运营</h4>
@@ -758,15 +770,15 @@
                     </div>
                 </div>
                 
-                <div class="portfolio-item" data-category="copywriting">
-                    <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-4.0.3&auto=format&fit=crop&w-800&q=80" alt="文案策划" class="portfolio-img">
+                <div class="portfolio-item fade-in" style="transition-delay: 0.2s;" data-category="copywriting">
+                    <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="文案策划" class="portfolio-img">
                     <div class="portfolio-overlay">
                         <h4>奢侈品品牌文案策划</h4>
                         <p>高端珠宝品牌的全案文案与营销策划</p>
                     </div>
                 </div>
                 
-                <div class="portfolio-item" data-category="video">
+                <div class="portfolio-item fade-in" style="transition-delay: 0.3s;" data-category="video">
                     <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="产品视频" class="portfolio-img">
                     <div class="portfolio-overlay">
                         <h4>产品功能演示视频</h4>
@@ -774,7 +786,7 @@
                     </div>
                 </div>
                 
-                <div class="portfolio-item" data-category="media">
+                <div class="portfolio-item fade-in" style="transition-delay: 0.4s;" data-category="media">
                     <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="社交媒体" class="portfolio-img">
                     <div class="portfolio-overlay">
                         <h4>社交媒体内容矩阵</h4>
@@ -782,7 +794,7 @@
                     </div>
                 </div>
                 
-                <div class="portfolio-item" data-category="copywriting">
+                <div class="portfolio-item fade-in" style="transition-delay: 0.5s;" data-category="copywriting">
                     <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="营销文案" class="portfolio-img">
                     <div class="portfolio-overlay">
                         <h4>电商营销文案系列</h4>
@@ -796,27 +808,27 @@
     <!-- 关于我们 -->
     <section class="section about" id="about">
         <div class="container">
-            <h2 class="section-title">关于我们</h2>
+            <h2 class="section-title fade-in">关于我们</h2>
             <div class="about-content">
-                <div class="about-img">
+                <div class="about-img fade-in">
                     <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="文思工作室团队">
                 </div>
-                <div class="about-text">
+                <div class="about-text fade-in" style="transition-delay: 0.2s;">
                     <h3>融合传统智慧与现代创意的专业团队</h3>
                     <p>文思工作室成立于2010年，由一群对创意内容创作和传统文化研究充满热情的专业人士组成。我们致力于为客户提供多元化的专业服务。</p>
                     <p>我们的团队由视频制作专家、自媒体运营顾问、资深文案策划师以及命理学研究学者组成，形成了独特的服务组合，能够为客户提供从现代数字营销到传统智慧咨询的全方位解决方案。</p>
                     <p>我们相信，真正的创意源于对多元文化的深刻理解，而传统智慧能为现代商业决策提供独特的视角。这种独特的融合使我们能够在竞争激烈的市场中为客户创造独特的价值。</p>
                     
                     <div class="stats">
-                        <div class="stat-item">
+                        <div class="stat-item fade-in" style="transition-delay: 0.3s;">
                             <span class="stat-number" id="projectCount">0</span>
                             <span class="stat-label">完成项目</span>
                         </div>
-                        <div class="stat-item">
+                        <div class="stat-item fade-in" style="transition-delay: 0.4s;">
                             <span class="stat-number" id="clientCount">0</span>
                             <span class="stat-label">满意客户</span>
                         </div>
-                        <div class="stat-item">
+                        <div class="stat-item fade-in" style="transition-delay: 0.5s;">
                             <span class="stat-number" id="yearCount">0</span>
                             <span class="stat-label">行业经验</span>
                         </div>
@@ -829,14 +841,14 @@
     <!-- 联系表单 -->
     <section class="section contact" id="contact">
         <div class="container">
-            <h2 class="section-title">联系我们</h2>
+            <h2 class="section-title fade-in">联系我们</h2>
             <div class="contact-container">
-                <div class="contact-info">
+                <div class="contact-info fade-in">
                     <h3>开启合作之旅</h3>
                     <p>无论您需要现代创意服务还是传统智慧咨询，文思工作室都期待与您合作。请填写右侧表格或通过以下方式联系我们，我们将在24小时内回复。</p>
                     
                     <div class="contact-details">
-                        <div class="contact-item">
+                        <div class="contact-item fade-in" style="transition-delay: 0.1s;">
                             <div class="contact-icon">
                                 <i class="fas fa-laptop"></i>
                             </div>
@@ -846,7 +858,7 @@
                             </div>
                         </div>
                         
-                        <div class="contact-item">
+                        <div class="contact-item fade-in" style="transition-delay: 0.2s;">
                             <div class="contact-icon">
                                 <i class="fas fa-envelope"></i>
                             </div>
@@ -856,7 +868,7 @@
                             </div>
                         </div>
                         
-                        <div class="contact-item">
+                        <div class="contact-item fade-in" style="transition-delay: 0.3s;">
                             <div class="contact-icon">
                                 <i class="fab fa-weixin"></i>
                             </div>
@@ -867,7 +879,7 @@
                             </div>
                         </div>
                         
-                        <div class="contact-item">
+                        <div class="contact-item fade-in" style="transition-delay: 0.4s;">
                             <div class="contact-icon">
                                 <i class="fab fa-qq"></i>
                             </div>
@@ -879,7 +891,7 @@
                     </div>
                 </div>
                 
-                <div class="contact-form">
+                <div class="contact-form fade-in" style="transition-delay: 0.2s;">
                     <form id="contactForm" action="https://formspree.io/f/xzdjlaek" method="POST">
                         <div id="formMessage" class="form-message"></div>
                         
@@ -930,12 +942,12 @@
     <footer>
         <div class="container">
             <div class="footer-content">
-                <div class="footer-about">
+                <div class="footer-about fade-in">
                     <div class="footer-logo">文思<span>工作室</span></div>
                     <p>文思工作室是一家融合现代创意服务与传统智慧咨询的专业机构，致力于为客户提供多元化的高品质服务。</p>
                 </div>
                 
-                <div class="footer-links">
+                <div class="footer-links fade-in" style="transition-delay: 0.1s;">
                     <h4>快速链接</h4>
                     <ul>
                         <li><a href="#home">首页</a></li>
@@ -946,7 +958,7 @@
                     </ul>
                 </div>
                 
-                <div class="footer-services">
+                <div class="footer-services fade-in" style="transition-delay: 0.2s;">
                     <h4>我们的服务</h4>
                     <ul>
                         <li><a href="#services">视频剪辑与制作</a></li>
@@ -958,7 +970,7 @@
                 </div>
             </div>
             
-            <div class="copyright">
+            <div class="copyright fade-in" style="transition-delay: 0.3s;">
                 <p>© 2010-2026 文思工作室. 版权所有.</p>
             </div>
         </div>
@@ -968,25 +980,47 @@
         // 导航菜单切换
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('nav-menu');
+        const navLinks = document.querySelectorAll('.nav-menu a');
         
         hamburger.addEventListener('click', () => {
             navMenu.classList.toggle('active');
         });
 
         // 关闭移动端菜单
-        document.querySelectorAll('.nav-menu a').forEach(n => n.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-        }));
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
 
-        // 作品筛选功能
+        // 滚动渐显效果
+        function checkScroll() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        // 页面加载时检查一次
+        window.addEventListener('load', checkScroll);
+        // 滚动时检查
+        window.addEventListener('scroll', checkScroll);
+
+        // 作品案例过滤
         const filterButtons = document.querySelectorAll('.filter-btn');
         const portfolioItems = document.querySelectorAll('.portfolio-item');
-
+        
         filterButtons.forEach(button => {
             button.addEventListener('click', () => {
                 // 移除所有按钮的active类
                 filterButtons.forEach(btn => btn.classList.remove('active'));
-                // 为当前点击的按钮添加active类
+                // 给当前点击的按钮添加active类
                 button.classList.add('active');
                 
                 const filterValue = button.getAttribute('data-filter');
@@ -994,6 +1028,10 @@
                 portfolioItems.forEach(item => {
                     if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
                         item.style.display = 'block';
+                        // 添加渐显效果
+                        setTimeout(() => {
+                            item.classList.add('visible');
+                        }, 100);
                     } else {
                         item.style.display = 'none';
                     }
@@ -1001,45 +1039,41 @@
             });
         });
 
-        // 数字动画
-        function animateCounter(elementId, target, duration) {
-            let element = document.getElementById(elementId);
-            let start = 0;
-            let increment = target / (duration / 16); // 假设60fps
-            let current = 0;
+        // 数字计数动画
+        function animateCounter(elementId, targetValue, duration = 2000) {
+            const element = document.getElementById(elementId);
+            let startValue = 0;
+            const increment = targetValue / (duration / 16); // 16ms per frame
+            let currentValue = 0;
             
-            function updateCounter() {
-                current += increment;
-                if (current < target) {
-                    element.textContent = Math.floor(current);
-                    requestAnimationFrame(updateCounter);
-                } else {
-                    element.textContent = target;
+            const timer = setInterval(() => {
+                currentValue += increment;
+                if (currentValue >= targetValue) {
+                    currentValue = targetValue;
+                    clearInterval(timer);
                 }
-            }
-            
-            updateCounter();
+                element.textContent = Math.floor(currentValue);
+            }, 16);
         }
 
         // 当关于我们部分进入视口时触发数字动画
         const aboutSection = document.getElementById('about');
-        let animated = false;
+        let countersAnimated = false;
 
-        function checkScroll() {
-            const sectionTop = aboutSection.getBoundingClientRect().top;
-            const windowHeight = window.innerHeight;
+        function checkCounters() {
+            const aboutTop = aboutSection.getBoundingClientRect().top;
             
-            if (sectionTop < windowHeight - 100 && !animated) {
-                animateCounter('projectCount', 250, 1000);
-                animateCounter('clientCount', 180, 1000);
-                animateCounter('yearCount', 14, 1000);
-                animated = true;
+            if (aboutTop < window.innerHeight - 100 && !countersAnimated) {
+                animateCounter('projectCount', 150);
+                animateCounter('clientCount', 120);
+                animateCounter('yearCount', 12);
+                countersAnimated = true;
             }
         }
 
-        window.addEventListener('scroll', checkScroll);
-        // 初始检查
-        checkScroll();
+        window.addEventListener('scroll', checkCounters);
+        // 页面加载时检查一次
+        window.addEventListener('load', checkCounters);
 
         // 表单提交处理
         const contactForm = document.getElementById('contactForm');
@@ -1052,9 +1086,9 @@
             e.preventDefault();
             
             // 显示加载状态
+            submitBtn.disabled = true;
             btnText.style.display = 'none';
             btnLoading.style.display = 'inline-block';
-            submitBtn.disabled = true;
             
             try {
                 const formData = new FormData(contactForm);
@@ -1067,28 +1101,45 @@
                 });
                 
                 if (response.ok) {
-                    formMessage.textContent = '消息发送成功！我们会尽快回复您。';
+                    formMessage.textContent = '感谢您的咨询！我们将在24小时内回复您。';
                     formMessage.className = 'form-message success';
                     contactForm.reset();
                 } else {
-                    formMessage.textContent = '发送失败，请稍后重试。';
-                    formMessage.className = 'form-message error';
+                    throw new Error('表单提交失败');
                 }
             } catch (error) {
-                formMessage.textContent = '发送失败，请检查网络连接。';
+                formMessage.textContent = '提交失败，请稍后重试或直接通过联系方式联系我们。';
                 formMessage.className = 'form-message error';
             } finally {
-                // 隐藏加载状态
-                btnText.style.display = 'inline-block';
-                btnLoading.style.display = 'none';
+                // 恢复按钮状态
                 submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoading.style.display = 'none';
                 
-                // 5秒后隐藏消息
+                // 3秒后隐藏消息
                 setTimeout(() => {
                     formMessage.style.display = 'none';
-                }, 5000);
+                }, 3000);
             }
         });
+
+        // 导航栏滚动效果
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const header = document.querySelector('header');
+            
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                header.style.transform = 'translateY(-100%)';
+            } else {
+                header.style.transform = 'translateY(0)';
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // 初始检查滚动效果
+        checkScroll();
     </script>
 </body>
 </html>
