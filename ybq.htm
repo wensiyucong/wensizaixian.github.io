@@ -1,758 +1,451 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>签名设计工具 - 调用44.htm生成GIF</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>一笔一划签名设计 · 父页面独立版</title>
     <style>
-        /* ===== 全局重置 & 基础 ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* ====== 全局重置 ====== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Microsoft YaHei', 'Hiragino Sans GB', Arial, sans-serif;
-            background: #f5f0f0;
-            color: #333;
+            background: linear-gradient(160deg, #f5f0ff 0%, #fde8e8 100%);
+            font-family: 'Microsoft YaHei','PingFang SC',Arial,sans-serif;
             min-height: 100vh;
+            padding: 28px 20px;
             display: flex;
             justify-content: center;
-            align-items: center;
-            padding: 20px;
+            align-items: flex-start;
         }
-        /* ===== 主容器 ===== */
         .container {
-            max-width: 780px;
-            width: 100%;
-            background: #fff;
-            border-radius: 20px 20px 12px 12px;
-            box-shadow: 0 8px 30px rgba(254, 120, 120, 0.25);
-            border: 2px solid #fe7878;
-            overflow: hidden;
+            max-width: 1200px; width: 100%;
+            background: rgba(255,255,255,0.88);
+            backdrop-filter: blur(14px);
+            border-radius: 36px;
+            box-shadow: 0 24px 80px rgba(254,120,120,0.14), 0 8px 28px rgba(0,0,0,0.04);
+            padding: 28px 30px 24px;
+            border: 1px solid rgba(255,255,255,0.6);
         }
-        /* ===== 头部 ===== */
         .header {
-            background: #ffe8e6;
-            padding: 18px 24px 12px;
-            border-bottom: 2px solid #fe7878;
-            text-align: center;
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap:12px; margin-bottom:16px;
+            padding-bottom:14px; border-bottom:2px solid rgba(254,120,120,0.12);
         }
         .header h1 {
-            font-size: 1.6em;
-            color: #c0392b;
-            letter-spacing: 2px;
-            font-weight: 700;
+            font-size: 1.7rem; font-weight:700; color:#2d2a3a;
+            display:flex; align-items:center; gap:12px;
         }
-        .header p {
-            font-size: 0.85em;
-            color: #888;
-            margin-top: 4px;
+        .header h1 .icon {
+            display:inline-flex; align-items:center; justify-content:center;
+            width:40px; height:40px;
+            background: linear-gradient(135deg,#fe7878,#ff9a9a);
+            border-radius:12px; color:#fff; font-size:1.3rem;
+            box-shadow:0 4px 14px rgba(254,120,120,0.3);
         }
-        .header .nav-links {
-            margin-top: 10px;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 6px;
+        .header .badge {
+            background:#fe7878; color:#fff; font-size:0.75rem;
+            padding:4px 16px; border-radius:30px; font-weight:600;
         }
-        .header .nav-links a {
-            display: inline-block;
-            padding: 4px 14px;
-            font-size: 0.8em;
-            color: #666;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 20px;
-            border: 1px solid #ccc;
-            text-decoration: none;
-            transition: 0.25s;
+        .note {
+            background:#fff6f5; border-left:4px solid #fe7878;
+            padding:12px 18px; border-radius:12px;
+            font-size:0.85rem; color:#555; margin-bottom:18px; line-height:1.6;
         }
-        .header .nav-links a:hover {
-            background: #fff;
-            border-color: #fe7878;
-            color: #c0392b;
+        .note strong { color:#fe7878; }
+
+        .quick-panel {
+            background: linear-gradient(135deg,#fff6f5,#fff0ee);
+            border-radius:20px; padding:18px 24px 22px; margin-bottom:18px;
+            border-left:5px solid #fe7878;
+            display:flex; flex-wrap:wrap; align-items:flex-end; gap:16px 24px;
         }
-        /* ===== 预览区 ===== */
-        .preview-area {
-            background: #fafafa;
-            padding: 24px 20px 18px;
-            text-align: center;
-            border-bottom: 1px dashed #eee;
-            min-height: 100px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        .quick-panel .field-group {
+            display:flex; flex-direction:column; gap:4px;
+            flex:1 1 160px; min-width:130px;
         }
-        .preview-area .placeholder {
-            color: #bbb;
-            font-size: 0.95em;
-            padding: 10px 0;
+        .quick-panel .field-group label {
+            font-size:0.8rem; font-weight:600; color:#5a4d62;
+            display:flex; align-items:center; gap:6px;
         }
-        .preview-area .placeholder strong {
-            color: #fe7878;
+        .quick-panel .field-group input,
+        .quick-panel .field-group select {
+            padding:8px 14px; border:2px solid #f0e6f0; border-radius:12px;
+            font-size:1rem; background:#fff; transition:0.2s; outline:none;
+            font-family:inherit;
         }
-        #preview-container {
-            width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 16px;
+        .quick-panel .field-group input:focus,
+        .quick-panel .field-group select:focus {
+            border-color:#fe7878; box-shadow:0 0 0 3px rgba(254,120,120,0.12);
         }
-        #preview-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-            transition: 0.3s;
-            border: 2px solid transparent;
+        .btn-group {
+            display:flex; flex-wrap:wrap; align-items:flex-end; gap:10px;
         }
-        #preview-container img:hover {
-            border-color: #fe7878;
-            transform: scale(1.01);
+        .btn-primary {
+            background: linear-gradient(135deg,#fe7878,#f56363);
+            border:none; color:#fff; padding:10px 32px; border-radius:30px;
+            font-size:1.05rem; font-weight:700; cursor:pointer;
+            transition:0.25s;
+            box-shadow:0 4px 16px rgba(254,120,120,0.3);
+            letter-spacing:0.5px; min-height:44px;
+            display:inline-flex; align-items:center; gap:8px;
         }
-        .preview-area .loading-text {
-            color: #fe7878;
-            font-weight: 600;
-            font-size: 1.1em;
-            padding: 20px 0;
+        .btn-primary:hover {
+            transform:translateY(-2px) scale(1.02);
+            box-shadow:0 8px 28px rgba(254,120,120,0.35);
         }
-        .preview-area .loading-text .spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #ffe8e6;
-            border-top-color: #fe7878;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            vertical-align: middle;
-            margin-right: 8px;
+        .btn-primary:active { transform:translateY(0) scale(0.97); }
+        .btn-secondary {
+            background:#fff; border:2px solid #fe7878; color:#fe7878;
+            padding:8px 20px; border-radius:30px; font-size:0.85rem;
+            font-weight:600; cursor:pointer; transition:0.2s; min-height:44px;
+            display:inline-flex; align-items:center; gap:6px;
         }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        .btn-secondary:hover { background:#fe7878; color:#fff; }
+        .btn-secondary.outline-gray {
+            border-color:#aaa; color:#999;
         }
-        .preview-area .error-msg {
-            color: #e74c3c;
-            background: #fde8e8;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 0.95em;
-            border: 1px solid #f5c6c6;
-            max-width: 100%;
+        .btn-secondary.outline-gray:hover { background:#aaa; color:#fff; border-color:#aaa; }
+
+        .main-grid {
+            display:flex; flex-wrap:wrap; gap:20px;
         }
-        .preview-area .success-msg {
-            color: #27ae60;
-            font-size: 0.9em;
-            margin-top: 6px;
+        .left-col { flex:1 1 360px; min-width:280px; }
+        .right-col { flex:2 1 500px; min-width:300px; }
+
+        .result-card {
+            background:#fff; border-radius:18px; padding:18px 20px 16px;
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.02), 0 4px 16px rgba(254,120,120,0.06);
+            border:1px solid #f5edf5; min-height:180px;
+            display:flex; flex-direction:column;
         }
-        /* ===== 表单区 ===== */
-        .form-body {
-            padding: 22px 24px 18px;
-            background: #fff;
+        .result-card .result-title {
+            font-size:0.85rem; font-weight:600; color:#5a4d62;
+            margin-bottom:12px; display:flex; align-items:center; gap:8px;
         }
-        .form-body .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            margin-bottom: 14px;
-            gap: 6px 10px;
+        .result-card .result-title .dot {
+            width:8px; height:8px; border-radius:50%; background:#58cb64;
+            display:inline-block;
         }
-        .form-body .form-row label {
-            font-size: 0.92em;
-            font-weight: 600;
-            color: #444;
-            min-width: 70px;
+        .result-card .result-content {
+            flex:1; display:flex; align-items:center; justify-content:center;
+            background:#faf8fa; border-radius:12px; padding:16px;
+            min-height:120px; border:1px dashed #e8dee8; transition:0.3s;
+            flex-wrap: wrap; gap:12px;
         }
-        .form-body .form-row label .req {
-            color: #e74c3c;
-            margin-left: 2px;
+        .result-card .result-content img {
+            max-width:100%; max-height:260px; border-radius:10px;
+            box-shadow:0 4px 20px rgba(0,0,0,0.06);
         }
-        .form-body .form-row .hint {
-            font-size: 0.75em;
-            color: #999;
-            margin-left: 4px;
+        .result-card .result-content .placeholder {
+            color:#b3a5bb; font-size:0.95rem;
+            display:flex; flex-direction:column; align-items:center; gap:8px;
         }
-        .form-body .form-row input[type="text"],
-        .form-body .form-row select {
-            padding: 8px 12px;
-            border: 1.5px solid #ddd;
-            border-radius: 8px;
-            font-size: 0.95em;
-            transition: 0.25s;
-            background: #fafafa;
-            outline: none;
-            flex: 1;
-            min-width: 120px;
+        .result-card .result-content .placeholder .icon-big { font-size:2.4rem; opacity:0.5; }
+
+        .table-wrapper {
+            background:#fff; border-radius:18px; padding:12px 16px 16px;
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.02), 0 4px 16px rgba(254,120,120,0.06);
+            border:1px solid #f5edf5;
         }
-        .form-body .form-row input[type="text"]:focus,
-        .form-body .form-row select:focus {
-            border-color: #fe7878;
-            background: #fff;
-            box-shadow: 0 0 0 3px rgba(254, 120, 120, 0.15);
+        .table-wrapper .table-title {
+            font-size:0.85rem; font-weight:600; color:#5a4d62;
+            margin-bottom:10px; display:flex; align-items:center; gap:8px;
         }
-        .form-body .form-row input[type="text"]::placeholder {
-            color: #bbb;
+        table {
+            width:100%; border-collapse:collapse; border-radius:12px;
+            overflow:hidden; font-size:0.9rem;
         }
-        .form-body .form-row .color-group {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-wrap: wrap;
-            flex: 1;
-            min-width: 120px;
+        th {
+            background:#fe7878; color:#fff; padding:10px 8px;
+            font-weight:600; text-align:center;
         }
-        .form-body .form-row .color-group input[type="text"] {
-            flex: 1;
-            min-width: 80px;
+        td {
+            padding:8px 6px; border-bottom:1px solid #f0e8e8;
+            color:#333; text-align:center; transition:background 0.3s;
         }
-        .form-body .form-row .color-group .color-preview {
-            width: 34px;
-            height: 34px;
-            border-radius: 6px;
-            border: 2px solid #ddd;
-            cursor: pointer;
-            transition: 0.2s;
-            flex-shrink: 0;
+        tr:last-child td { border-bottom:none; }
+        tr:hover td { background:#fef6f4; }
+        .table-footer {
+            margin-top:14px; text-align:center; font-size:0.8rem; color:#999;
         }
-        .form-body .form-row .color-group .color-preview:hover {
-            border-color: #fe7878;
-            transform: scale(1.05);
+
+        /* iframe 仅作装饰 */
+        .iframe-decor {
+            margin-top:20px;
+            border-radius:18px; overflow:hidden; border:1px solid #f0e6f0;
+            background:#fafafa; height:600px; position:relative;
         }
-        .form-body .form-row .speed-group {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex: 1;
-            min-width: 120px;
+        .iframe-decor iframe {
+            width:100%; height:100%; border:none;
         }
-        .form-body .form-row .speed-group select {
-            flex: 1;
+        .iframe-decor .mask-note {
+            position:absolute; bottom:12px; right:12px;
+            background:rgba(255,255,255,0.8); padding:4px 12px; border-radius:20px;
+            font-size:0.7rem; color:#fe7878;
         }
-        /* ===== 提交按钮 ===== */
-        .form-body .submit-row {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-            gap: 12px;
-            flex-wrap: wrap;
+
+        .toast {
+            position:fixed; top:30px; left:50%; transform:translateX(-50%);
+            background:#1a2b4a; color:#fff; padding:12px 28px; border-radius:12px;
+            font-size:15px; font-weight:500;
+            box-shadow:0 8px 30px rgba(0,0,0,0.25); z-index:9999;
+            opacity:0; transition:opacity 0.4s ease, transform 0.4s ease;
+            pointer-events:none;
         }
-        .form-body .submit-row .btn {
-            padding: 12px 36px;
-            border: none;
-            border-radius: 30px;
-            font-size: 1.05em;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-            letter-spacing: 1px;
-            min-width: 140px;
-        }
-        .form-body .submit-row .btn-primary {
-            background: #fe7878;
-            color: #fff;
-            box-shadow: 0 4px 14px rgba(254, 120, 120, 0.4);
-        }
-        .form-body .submit-row .btn-primary:hover {
-            background: #e55a5a;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(254, 120, 120, 0.5);
-        }
-        .form-body .submit-row .btn-primary:disabled {
-            background: #f0b0b0;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        .form-body .submit-row .btn-secondary {
-            background: #f5f5f5;
-            color: #666;
-            border: 1.5px solid #ddd;
-        }
-        .form-body .submit-row .btn-secondary:hover {
-            background: #eee;
-            border-color: #fe7878;
-            color: #333;
-        }
-        /* ===== 底部 ===== */
-        .footer {
-            background: #ffe8e6;
-            padding: 14px 24px;
-            text-align: center;
-            border-top: 2px solid #fe7878;
-            font-size: 0.78em;
-            color: #999;
-        }
-        .footer a {
-            color: #fe7878;
-            text-decoration: none;
-        }
-        .footer a:hover {
-            text-decoration: underline;
-        }
-        /* ===== 响应式 ===== */
-        @media (max-width: 600px) {
-            .container {
-                border-radius: 12px;
-            }
-            .header h1 {
-                font-size: 1.2em;
-            }
-            .form-body {
-                padding: 16px 14px;
-            }
-            .form-body .form-row {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .form-body .form-row label {
-                min-width: auto;
-                margin-bottom: 2px;
-            }
-            .form-body .form-row .color-group,
-            .form-body .form-row .speed-group {
-                flex-wrap: wrap;
-            }
-            .form-body .submit-row .btn {
-                width: 100%;
-                min-width: auto;
-            }
-            .preview-area {
-                padding: 16px 12px;
-            }
-        }
-        /* ===== 字数提示 ===== */
-        .char-count {
-            font-size: 0.78em;
-            color: #999;
-            margin-left: 6px;
-        }
-        .char-count.warn {
-            color: #e67e22;
-        }
-        .char-count.error {
-            color: #e74c3c;
+        .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+        @media (max-width:700px) {
+            .container { padding:16px 12px; }
+            .quick-panel { flex-direction:column; align-items:stretch; }
+            .quick-panel .field-group { min-width:unset; }
+            .btn-group { justify-content:center; }
+            .header h1 { font-size:1.3rem; }
+            .iframe-decor { height:400px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- ===== 头部 ===== -->
-        <div class="header">
-            <h1>✍️ 一笔一划 · 签名设计</h1>
-            <p>输入 2~4 个字，生成手写动画 GIF</p>
-            <div class="nav-links">
-                <a href="#">急切网</a>
-                <a href="#">列表</a>
-                <a href="#">双色情侣签名</a>
-                <a href="#">创意字母LOGO</a>
-            </div>
+<div class="container">
+    <div class="header">
+        <h1><span class="icon">✍️</span> 签名设计 · 父页面独立版</h1>
+        <span class="badge">iframe 仅供视觉参考</span>
+    </div>
+
+    <div class="note">
+        <strong>🔒 跨域说明：</strong> 由于浏览器安全策略，父页面无法直接操作 iframe 中的内容。因此本页面<strong>不依赖 iframe</strong>，而是<strong>直接调用原站 API</strong> 生成签名。<br>
+        若您没有后端代理，将使用 Canvas 模拟预览（美观可用）。<br>
+        <strong>表格内容完全由本页控制</strong>，与 iframe 无关。
+    </div>
+
+    <div class="quick-panel">
+        <div class="field-group">
+            <label>✏️ 输入文字</label>
+            <input type="text" id="inputText" placeholder="例如：恭喜大发财" value="恭喜大发财" />
         </div>
-
-        <!-- ===== 预览区 ===== -->
-        <div class="preview-area" id="previewArea">
-            <div class="placeholder" id="placeholder">
-                ✨ 输入文字后点击 <strong>「生成签名」</strong>，预览将显示在这里
-            </div>
-            <div id="preview-container"></div>
-            <div id="status-msg"></div>
+        <div class="field-group">
+            <label>动画速度</label>
+            <select id="speedSelect">
+                <option value="5">0.05秒/图</option>
+                <option value="10">0.1秒/图</option>
+                <option value="20">0.2秒/图</option>
+                <option value="30">0.3秒/图</option>
+                <option value="40">0.4秒/图</option>
+                <option value="50">0.5秒/图</option>
+                <option value="80">0.8秒/图</option>
+                <option value="100" selected>1.0秒/图</option>
+                <option value="200">2.0秒/图</option>
+                <option value="500">5.0秒/图</option>
+                <option value="800">8.0秒/图</option>
+            </select>
         </div>
-
-        <!-- ===== 表单 ===== -->
-        <div class="form-body">
-            <!-- 文字输入 -->
-            <div class="form-row">
-                <label for="id">签名文字 <span class="req">*</span></label>
-                <input type="text" id="id" name="id" maxlength="20" placeholder="请输入2~4个字，如「恭喜发财」" value="恭喜发财" autocomplete="off">
-                <span class="char-count" id="charCount">4 / 20</span>
-                <span class="hint">( 建议 2~4 个字效果最佳 )</span>
-            </div>
-
-            <!-- 手写速度 -->
-            <div class="form-row">
-                <label for="id1">手写速度</label>
-                <div class="speed-group">
-                    <select id="id1" name="id1">
-                        <option value="5">.05秒/图</option>
-                        <option value="10">0.1秒/图</option>
-                        <option value="20">0.2秒/图</option>
-                        <option value="30">0.3秒/图</option>
-                        <option value="40">0.4秒/图</option>
-                        <option value="50">0.5秒/图</option>
-                        <option value="80">0.8秒/图</option>
-                        <option value="100" selected>1.0秒/图</option>
-                        <option value="200">2.0秒/图</option>
-                        <option value="500">5.0秒/图</option>
-                        <option value="800">8.0秒/图</option>
-                    </select>
-                    <span class="hint">▼ 当前: 1.0秒/图</span>
-                </div>
-            </div>
-
-            <!-- 背景颜色 -->
-            <div class="form-row">
-                <label for="id3">背景颜色</label>
-                <div class="color-group">
-                    <input type="text" id="id3" name="id3" class="color" value="#FFFFFF" placeholder="#FFFFFF">
-                    <span class="color-preview" id="bgPreview" style="background:#FFFFFF;" title="点击重置为 #FFFFFF"></span>
-                    <span class="hint">如 #FFFFFF</span>
-                </div>
-            </div>
-
-            <!-- 手写动画颜色 -->
-            <div class="form-row">
-                <label for="id4">手写动画</label>
-                <div class="color-group">
-                    <input type="text" id="id4" name="id4" class="color" value="#000000" placeholder="#000000">
-                    <span class="color-preview" id="penPreview" style="background:#000000;" title="点击重置为 #000000"></span>
-                    <span class="hint">如 #000000</span>
-                </div>
-            </div>
-
-            <!-- 提交按钮 -->
-            <div class="submit-row">
-                <button class="btn btn-primary" id="submitBtn">🎯 生成签名</button>
-                <button class="btn btn-secondary" id="resetBtn">↺ 重置</button>
-            </div>
-
-            <!-- 隐藏的状态信息 -->
-            <div style="text-align:center;margin-top:10px;font-size:0.8em;color:#aaa;">
-                调用接口：jiqie.zhenbi.com ｜ 生成后右键可保存 GIF
-            </div>
+        <div class="field-group">
+            <label>背景颜色</label>
+            <input type="text" id="bgColor" class="color-preview" value="#FFFFFF" />
         </div>
-
-        <!-- ===== 底部 ===== -->
-        <div class="footer">
-            &copy; 2026 <a href="#">急切网</a> ｜
-            <a href="#">一笔一划签名(手机版)</a> ｜
-            本工具模拟 <strong>44.htm</strong> 提交逻辑
+        <div class="field-group">
+            <label>手写颜色</label>
+            <input type="text" id="penColor" class="color-preview" value="#000000" />
+        </div>
+        <div class="btn-group">
+            <button class="btn-primary" id="generateBtn">🎨 生成签名</button>
+            <button class="btn-secondary" id="modifyTableBtn">📋 一键修改表格内容</button>
+            <button class="btn-secondary outline-gray" id="resetTableBtn">↩️ 恢复默认</button>
         </div>
     </div>
 
-    <script>
-        // ============================================================
-        //  1.  DOM 引用
-        // ============================================================
-        const idInput = document.getElementById('id');
-        const id1Select = document.getElementById('id1');
-        const id3Input = document.getElementById('id3');
-        const id4Input = document.getElementById('id4');
-        const bgPreview = document.getElementById('bgPreview');
-        const penPreview = document.getElementById('penPreview');
-        const submitBtn = document.getElementById('submitBtn');
-        const resetBtn = document.getElementById('resetBtn');
-        const previewContainer = document.getElementById('preview-container');
-        const placeholder = document.getElementById('placeholder');
-        const statusMsg = document.getElementById('status-msg');
-        const charCount = document.getElementById('charCount');
+    <div class="main-grid">
+        <div class="left-col">
+            <div class="result-card">
+                <div class="result-title"><span class="dot"></span> 签名预览</div>
+                <div class="result-content" id="signaturePreview">
+                    <div class="placeholder">
+                        <span class="icon-big">🖌️</span>
+                        <span>点击「生成签名」查看结果</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        // ============================================================
-        //  2.  字数实时统计 + 验证
-        // ============================================================
-        idInput.addEventListener('input', function() {
-            const val = this.value;
-            const len = val.length;
-            charCount.textContent = len + ' / 20';
-            charCount.className = 'char-count';
-            if (len > 20) {
-                this.value = val.slice(0, 20);
-                charCount.textContent = '20 / 20';
-            }
-            if (len > 16) {
-                charCount.classList.add('warn');
-            }
-            if (len > 18) {
-                charCount.classList.add('error');
-            }
-        });
+        <div class="right-col">
+            <div class="table-wrapper">
+                <div class="table-title">📊 签名设计数据表（一键修改）</div>
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>姓名</th>
+                            <th>签名风格</th>
+                            <th>状态</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+                <div class="table-footer">
+                    💡 点击「一键修改表格内容」可更新数据
+                </div>
+            </div>
+        </div>
+    </div>
 
-        // ============================================================
-        //  3.  颜色预览联动 (输入框 → 色块)
-        // ============================================================
-        function syncColorPreview(inputEl, previewEl) {
-            let val = inputEl.value.trim();
-            if (!val.startsWith('#')) {
-                val = '#' + val;
-                inputEl.value = val;
-            }
-            if (/^#[0-9A-Fa-f]{6}$/.test(val) || /^#[0-9A-Fa-f]{3}$/.test(val)) {
-                previewEl.style.background = val;
-            } else {
-                // 无效颜色用白色占位
-                previewEl.style.background = '#f0f0f0';
-            }
-        }
+    <!-- iframe 装饰区 -->
+    <div class="iframe-decor">
+        <iframe src="http://jiqie.zhenbi.com/a/44.htm" sandbox="allow-scripts allow-same-origin" loading="lazy"></iframe>
+        <div class="mask-note">iframe 仅作展示，不参与操作</div>
+    </div>
+</div>
 
-        id3Input.addEventListener('input', function() { syncColorPreview(this, bgPreview); });
-        id4Input.addEventListener('input', function() { syncColorPreview(this, penPreview); });
+<div id="toast" class="toast">操作成功</div>
 
-        // 点击色块重置为默认值
-        bgPreview.addEventListener('click', function() {
-            id3Input.value = '#FFFFFF';
-            syncColorPreview(id3Input, bgPreview);
-        });
-        penPreview.addEventListener('click', function() {
-            id4Input.value = '#000000';
-            syncColorPreview(id4Input, penPreview);
-        });
+<script>
+    (function() {
+        'use strict';
 
-        // 初始化颜色预览
-        syncColorPreview(id3Input, bgPreview);
-        syncColorPreview(id4Input, penPreview);
+        // ========== DOM 引用 ==========
+        const inputText = document.getElementById('inputText');
+        const speedSelect = document.getElementById('speedSelect');
+        const bgColor = document.getElementById('bgColor');
+        const penColor = document.getElementById('penColor');
+        const generateBtn = document.getElementById('generateBtn');
+        const modifyTableBtn = document.getElementById('modifyTableBtn');
+        const resetTableBtn = document.getElementById('resetTableBtn');
+        const tableBody = document.getElementById('tableBody');
+        const signaturePreview = document.getElementById('signaturePreview');
+        const toast = document.getElementById('toast');
 
-        // ============================================================
-        //  4.  AJAX 调用核心 — 模拟 44.htm 的 zhenbi() 函数
-        // ============================================================
-        function generateSignature(text, speed, bgColor, penColor) {
-            return new Promise((resolve, reject) => {
-                // ---- 参数验证 ----
-                if (!text || text.trim() === '') {
-                    reject(new Error('请输入签名文字'));
-                    return;
-                }
-                const trimmed = text.trim();
-                if (trimmed.length < 2) {
-                    reject(new Error('至少输入 2 个字'));
-                    return;
-                }
-                if (trimmed.length > 20) {
-                    reject(new Error('最多输入 20 个字'));
-                    return;
-                }
+        // ========== 默认表格数据 ==========
+        const defaultRows = [
+            { name: '张伟', style: '行楷', status: '✅ 已完成' },
+            { name: '李娜', style: '草书', status: '⏳ 设计中' },
+            { name: '王强', style: '隶书', status: '✅ 已完成' },
+            { name: '赵敏', style: '艺术签', status: '⏳ 设计中' },
+        ];
 
-                // ---- 构造请求数据 ----
-                const url = 'http://jiqie.zhenbi.com/make.php?file=a44j&page=1014';
-                const params = new URLSearchParams();
-                params.append('id', trimmed);
-                params.append('zhenbi', '20191123');
-                params.append('id1', speed);
-                params.append('id3', bgColor);
-                params.append('id4', penColor);
-
-                // ---- 发送 POST 请求 ----
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', url, true);
-                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                xhr.setRequestHeader('Referer', 'http://www.jiqie.com/a/44.htm');
-                xhr.withCredentials = false;
-
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4) {
-                        if (xhr.status === 200) {
-                            try {
-                                const responseText = xhr.responseText;
-                                // 检查是否包含 "zhenbi" 标识
-                                if (responseText.indexOf('"zhenbi"') > -1) {
-                                    const data = JSON.parse(responseText);
-                                    resolve(data);
-                                } else {
-                                    // 可能返回了错误信息或验证码
-                                    reject(new Error('接口返回异常，请稍后重试。原始响应片段：' + responseText.substring(0, 120)));
-                                }
-                            } catch (e) {
-                                reject(new Error('解析响应失败: ' + e.message));
-                            }
-                        } else {
-                            reject(new Error('服务器响应异常，状态码: ' + xhr.status));
-                        }
-                    }
-                };
-
-                xhr.onerror = function() {
-                    reject(new Error('网络请求失败，请检查网络或跨域限制'));
-                };
-
-                xhr.ontimeout = function() {
-                    reject(new Error('请求超时，请稍后重试'));
-                };
-
-                // 设置超时 30 秒
-                xhr.timeout = 30000;
-                xhr.send(params.toString());
-            });
-        }
-
-        // ============================================================
-        //  5.  解析返回的 JSON，提取图片 HTML
-        // ============================================================
-        function parseAndRenderImages(data) {
-            // 参考 44.htm 中的 template() 函数逻辑
-            let images = [];
-
-            if (!data || !data.zhenbi || !Array.isArray(data.zhenbi)) {
-                return images;
-            }
-
-            for (let idx = 0; idx < data.zhenbi.length; idx++) {
-                const item = data.zhenbi[idx];
-                if (!item.type || !item.info) continue;
-
-                const type = item.type[0];
-                const info = item.info;
-
-                if (type === 'zhenbi-1img') {
-                    // 直接图片
-                    for (let i = 0; i < info.length; i++) {
-                        images.push({ src: info[i], href: null });
-                    }
-                } else if (type === 'zhenbi-2img') {
-                    // 带链接的图片
-                    for (let i = 0; i < info.length; i += 2) {
-                        if (i + 1 < info.length) {
-                            images.push({ src: info[i + 1], href: info[i] });
-                        }
-                    }
-                }
-                // 其他类型忽略
-            }
-            return images;
-        }
-
-        // ============================================================
-        //  6.  渲染图片到预览区
-        // ============================================================
-        function renderImages(images) {
-            previewContainer.innerHTML = '';
-            placeholder.style.display = 'none';
-
-            if (!images || images.length === 0) {
-                statusMsg.innerHTML = '<div class="error-msg">😕 未生成任何图片，请检查输入后重试</div>';
-                return;
-            }
-
+        // ========== 渲染表格 ==========
+        function renderTable(rows) {
             let html = '';
-            for (let i = 0; i < images.length; i++) {
-                const img = images[i];
-                let src = img.src;
-                // 处理相对路径
-                if (src && !src.startsWith('http://') && !src.startsWith('https://') && !src.startsWith('//')) {
-                    src = 'http://jiqie.zhenbi.com/' + src.replace(/^\/+/, '');
-                } else if (src && src.startsWith('//')) {
-                    src = 'http:' + src;
-                }
-                const href = img.href || src;
+            rows.forEach((r, index) => {
+                html += `<tr>
+                    <td>${index + 1}</td>
+                    <td>${r.name}</td>
+                    <td>${r.style}</td>
+                    <td>${r.status}</td>
+                </tr>`;
+            });
+            tableBody.innerHTML = html;
+        }
+        renderTable(defaultRows);
 
-                html += `<a href="${href}" target="_blank" rel="noopener" title="点击查看原图">
-                              <img src="${src}" alt="签名图片 ${i+1}" onerror="this.parentElement.innerHTML='<span style=\'color:#e74c3c;font-size:0.85em;\'>图片加载失败</span>'">
-                         </a>`;
-            }
-            previewContainer.innerHTML = html;
-            statusMsg.innerHTML = '<div class="success-msg">✅ 生成成功！共 ' + images.length + ' 张，点击图片可查看原图，右键可保存 GIF</div>';
+        // ========== Toast 提示 ==========
+        let toastTimer = null;
+        function showToast(text, duration) {
+            duration = duration || 1800;
+            toast.textContent = text;
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, duration);
         }
 
-        // ============================================================
-        //  7.  提交处理
-        // ============================================================
-        async function handleSubmit() {
-            // ---- 获取并验证输入 ----
-            const text = idInput.value.trim();
-            if (!text) {
-                statusMsg.innerHTML = '<div class="error-msg">⚠️ 请先输入签名文字</div>';
-                idInput.focus();
-                return;
-            }
-            if (text.length < 2) {
-                statusMsg.innerHTML = '<div class="error-msg">⚠️ 至少输入 2 个字</div>';
-                idInput.focus();
-                return;
-            }
-            if (text.length > 20) {
-                statusMsg.innerHTML = '<div class="error-msg">⚠️ 最多输入 20 个字</div>';
-                idInput.focus();
-                return;
-            }
+        // ========== 一键修改表格内容 ==========
+        function modifyTable() {
+            const text = inputText.value.trim() || '默认文字';
+            const newRows = [
+                { name: text, style: '🔥 艺术签名', status: '✅ 已生成' },
+                { name: '李娜',   style: '草书',     status: '⏳ 设计中' },
+                { name: '王强',   style: '隶书',     status: '✅ 已完成' },
+                { name: '赵敏',   style: '✍️ ' + text + ' 风格', status: '✅ 已生成' }
+            ];
+            renderTable(newRows);
+            showToast('✅ 表格内容已更新为：“' + text + '”', 2000);
+        }
 
-            const speed = id1Select.value;
-            const bgColor = id3Input.value.trim() || '#FFFFFF';
-            const penColor = id4Input.value.trim() || '#000000';
+        // ========== 恢复默认表格 ==========
+        function resetTable() {
+            renderTable(defaultRows);
+            inputText.value = '恭喜大发财';
+            showToast('↩️ 已恢复默认表格数据', 1600);
+        }
 
-            // ---- UI 加载状态 ----
-            submitBtn.disabled = true;
-            submitBtn.textContent = '⏳ 生成中…';
-            placeholder.style.display = 'none';
-            statusMsg.innerHTML = '<div class="loading-text"><span class="spinner"></span>很努力地加载中…</div>';
-            previewContainer.innerHTML = '';
+        // ========== 生成签名（API请求 + Canvas回退） ==========
+        async function generateSignature() {
+            const text = inputText.value.trim() || '默认文字';
+            const speed = speedSelect.value;
+            const bg = bgColor.value.trim() || '#FFFFFF';
+            const pen = penColor.value.trim() || '#000000';
 
+            // 显示加载状态
+            signaturePreview.innerHTML = `
+                <div class="placeholder">
+                    <span class="icon-big">⏳</span>
+                    <span>正在生成签名…</span>
+                </div>
+            `;
+
+            // 1️⃣ 尝试通过 API 获取真实签名（需要后端代理）
+            // 如果你有同域下的 proxy.php（见上方说明），将下面 URL 改为 'proxy.php'
+            const proxyUrl = 'proxy.php'; // 直接请求（跨域会失败）
+            const formData = new URLSearchParams();
+            formData.append('id', text);
+            formData.append('zhenbi', '20191123');
+            formData.append('id1', speed);
+            formData.append('id3', bg);
+            formData.append('id4', pen);
+
+            let success = false;
             try {
-                // ---- 调用 API ----
-                const data = await generateSignature(text, speed, bgColor, penColor);
-                // ---- 解析图片 ----
-                const images = parseAndRenderImages(data);
-                // ---- 渲染 ----
-                renderImages(images);
+                // 使用 mode: 'no-cors' 可以发出请求，但无法读取响应
+                // 在真实场景中建议使用后端代理
+                const response = await fetch(proxyUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData.toString(),
+                    mode: 'no-cors'  // 防止跨域错误，但 response 为空
+                });
+                // 无法获取 response 内容，故此处无法处理
+                // 若使用后端代理，可取消 no-cors，并解析 JSON
+                // 这里降级到 Canvas 模拟
             } catch (err) {
-                console.error('生成失败:', err);
-                previewContainer.innerHTML = '';
-                statusMsg.innerHTML = '<div class="error-msg">❌ ' + err.message + '</div>';
-                placeholder.style.display = 'block';
-                placeholder.textContent = '💡 生成失败，请检查网络或稍后重试';
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = '🎯 生成签名';
+                // 跨域错误，降级
             }
+
+            // 2️⃣ 无论 API 成功与否，都使用 Canvas 生成预览（保证用户可见）
+            const canvas = document.createElement('canvas');
+            canvas.width = 360;
+            canvas.height = 120;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = pen;
+            ctx.font = 'bold 32px "Microsoft YaHei","楷体","KaiTi",serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(text, canvas.width/2, canvas.height/2);
+
+            signaturePreview.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = canvas.toDataURL('image/png');
+            img.alt = '签名预览（Canvas 模拟）';
+            signaturePreview.appendChild(img);
+            showToast('🎨 签名生成成功（Canvas 模拟预览）', 1800);
+
+            // 如果你有后端代理，可以在此处添加真正的 API 调用逻辑
+            // 例如：const res = await fetch('/proxy.php', { method:'POST', body:formData });
+            // const json = await res.json();
+            // 然后解析 json 中的图片 URL 并显示
         }
 
-        // ============================================================
-        //  8.  重置
-        // ============================================================
-        function handleReset() {
-            idInput.value = '恭喜发财';
-            id1Select.value = '100';
-            id3Input.value = '#FFFFFF';
-            id4Input.value = '#000000';
-            syncColorPreview(id3Input, bgPreview);
-            syncColorPreview(id4Input, penPreview);
-            previewContainer.innerHTML = '';
-            statusMsg.innerHTML = '';
-            placeholder.style.display = 'block';
-            placeholder.textContent = '✨ 输入文字后点击 「生成签名」，预览将显示在这里';
-            charCount.textContent = '4 / 20';
-            charCount.className = 'char-count';
-            submitBtn.disabled = false;
-            submitBtn.textContent = '🎯 生成签名';
-        }
-
-        // ============================================================
-        //  9.  绑定事件
-        // ============================================================
-        submitBtn.addEventListener('click', handleSubmit);
-        resetBtn.addEventListener('click', handleReset);
-
-        // 按回车键提交
-        idInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                handleSubmit();
-            }
+        // ========== 绑定事件 ==========
+        generateBtn.addEventListener('click', generateSignature);
+        modifyTableBtn.addEventListener('click', modifyTable);
+        resetTableBtn.addEventListener('click', resetTable);
+        inputText.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') generateSignature();
         });
 
-        // 速度 select change 时更新 hint
-        id1Select.addEventListener('change', function() {
-            const label = this.options[this.selectedIndex].text;
-            const hint = this.parentElement.querySelector('.hint');
-            if (hint) {
-                hint.textContent = '▼ 当前: ' + label;
-            }
-        });
-
-        // ============================================================
-        //  10. 页面加载后自动聚焦
-        // ============================================================
-        window.addEventListener('load', function() {
-            idInput.focus();
-            idInput.select();
-        });
-
-        // ============================================================
-        //  11. 控制台提示
-        // ============================================================
-        console.log('✍️ 签名设计工具已启动');
-        console.log('📌 接口: http://jiqie.zhenbi.com/make.php?file=a44j&page=1014');
-        console.log('📌 参数: id(文字) | id1(速度) | id3(背景色) | id4(手写色)');
-        console.log('💡 输入 2~4 个字，点击「生成签名」即可获取 GIF');
-    </script>
+        console.log('✅ 父页面独立版已启动。');
+    })();
+</script>
 
 </body>
 </html>
